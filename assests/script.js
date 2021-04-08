@@ -47,14 +47,18 @@ function fiveDayForecast(cityName){
             // if (!existingHistory.includes(searchValue)) {
             //   handleHistory(searchValue);
             i = 0
-            console.log(data.list[i])
-            $("#forecastFor5Days").html(`<h3>City Name:${cityName}</h1>
-        <p>Date: <strong>${data.list[i].dt_txt}</strong> degrees<p>
+            console.log(data.list)
+            var htmlCode = ""
+            for(let i=0;i<data.list.length;i=i+8){
+              htmlCode += `<div class="cards"><p>Date: <strong>${data.list[i].dt_txt}</strong> degrees<p>
             <p>Temperature: <strong>${data.list[i].main.temp}</strong> degrees<p>
             <p>Humidity: <strong>${data.list[i].main.humidity}</strong> % </p>
             <p>Description: ${data.list[i].weather[0].description}<p>
             <img src="http://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" />
-            Wind Speed: ${data.list[i].wind.speed}`);
+            <p>Wind Speed: ${data.list[i].wind.speed}</p>
+            </div>`
+            }
+            $("#forecastFor5Days").html(htmlCode)
 
         });  
         
