@@ -21,7 +21,7 @@ function currentWeather(cityName) {
          var lat = result.coord.lat
          var lon = result.coord.lon
          getUV(lat,lon)
-         get
+         getLocalStorage(cityName)
         }
     });
 }
@@ -54,7 +54,7 @@ function fiveDayForecast(cityName){
             console.log(data.list)
             var htmlCode = ""
             for(let i=0;i<data.list.length;i=i+8){
-              htmlCode += `<div class="cards text-center border-primary"><p>Date: <strong>${data.list[i].dt_txt}</strong><p>
+              htmlCode += `<div class="cards  border-primary"><p>Date: <strong>${data.list[i].dt_txt}</strong><p>
             <p>Temperature: <strong>${data.list[i].main.temp}</strong> degrees<p>
             <p>Humidity: <strong>${data.list[i].main.humidity}</strong> % </p>
             <p>Description: ${data.list[i].weather[0].description}<p>
@@ -87,5 +87,10 @@ function getLocalStorage(cityName){
     var search = JSON.parse(localStorage.getItem("Weather")) || []
     search.push(cityName)
     localStorage.setItem("Weather", JSON.stringify(search))
-
+   console.log("Local",search)
+   var htmlCode = ""
+   for(let i =0;i<search.length;i++){
+       htmlCode += `<li> ${search[i]} </li>`
+   }
+   $("#previous").html(htmlCode)
 }
