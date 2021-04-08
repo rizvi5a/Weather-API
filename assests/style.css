@@ -1,0 +1,9 @@
+#uv-index {
+    color: rgb(226, 25, 25);
+    
+}
+.card {
+    position: relative;
+    width:300 px;
+    background-color: cyan;
+}

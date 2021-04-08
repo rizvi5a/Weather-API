@@ -12,10 +12,11 @@ function currentWeather(cityName) {
         method: "GET",
         success: function (result) {
             console.log(result)
-            $("#current-weather").html(`<h3>City Name:${cityName}</h1>
-         <p>Current Weather:<strong>${result.main.temp}</strong> degrees<p>
-         <p>Humidity: ${result.main.humidity}</p>
-         <p>Description: ${result.weather[0].description}<p>
+            $("#current-weather").html(`<h3>City Name:${cityName}</h3>
+            
+         <p>Current Weather: <strong>${result.main.temp}</strong> degrees<p>
+         <p>Humidity: ${result.main.humidity} <i>%</i></p>
+         <p>Description: ${result.weather[0].description} <p>
          <img src="https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png" />
          Wind Speed: ${result.wind.speed}`);
          var lat = result.coord.lat
@@ -25,20 +26,6 @@ function currentWeather(cityName) {
         }
     });
 }
-
-// searchValue="Houston"
-
-// var url = `http://api.openweathermap.org/data/2.5/weather?q=${searchValue}&appid=${API}&units=imperial`;
-//     fetch(url)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         // Invoke our history method
-//         // if (!existingHistory.includes(searchValue)) {
-//         //   handleHistory(searchValue);
-//         console.log(data)
-//         }
-//       )
-
 
 
 
@@ -54,12 +41,14 @@ function fiveDayForecast(cityName){
             console.log(data.list)
             var htmlCode = ""
             for(let i=0;i<data.list.length;i=i+8){
-              htmlCode += `<div class="cards  border-primary"><p>Date: <strong>${data.list[i].dt_txt}</strong><p>
+              htmlCode += `<div class="card col-lg-2 flex-box border-primary"> <br>
+            <p>Date: <strong>${data.list[i].dt_txt}</strong><p>
             <p>Temperature: <strong>${data.list[i].main.temp}</strong> degrees<p>
             <p>Humidity: <strong>${data.list[i].main.humidity}</strong> % </p>
             <p>Description: ${data.list[i].weather[0].description}<p>
-            <img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" />
             <p>Wind Speed: ${data.list[i].wind.speed}</p>
+            <img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" />
+            
             </div>`
             }
             $("#forecastFor5Days").html(htmlCode)
@@ -73,9 +62,7 @@ function fiveDayForecast(cityName){
             fetch(endpoint)
          .then((res) => res.json())
          .then((data) => {
-             // Invoke our history method
-             // if "Weather(!existingHistory.includes(searchValue)) {
-             //   handleHistory(searchValue);
+             
              i = 0
              console.log(data)
              $("#uv-index").html(`<h6>UV: ${data.value}</h6>`)
@@ -91,6 +78,11 @@ function getLocalStorage(cityName){
    var htmlCode = ""
    for(let i =0;i<search.length;i++){
        htmlCode += `<li> ${search[i]} </li>`
+       if (i  == 20)  {
+        localStorage.clear();
+     }
+
    }
    $("#previous").html(htmlCode)
+   
 }
