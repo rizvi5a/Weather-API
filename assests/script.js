@@ -16,8 +16,12 @@ function currentWeather(cityName) {
          <p>Current Weather:<strong>${result.main.temp}</strong> degrees<p>
          <p>Humidity: ${result.main.humidity}</p>
          <p>Description: ${result.weather[0].description}<p>
-         <img src="http://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png" />
+         <img src="https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png" />
          Wind Speed: ${result.wind.speed}`);
+         var lat = result.coord.lat
+         var lon = result.coord.lon
+         getUV(lat,lon)
+         get
         }
     });
 }
@@ -39,8 +43,8 @@ function currentWeather(cityName) {
 
 
 function fiveDayForecast(cityName){
-    var endpoint = `http://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API}&units=imperial`;
-        fetch(endpoint)
+    var endpoint = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${API}&units=imperial`;
+           fetch(endpoint)
         .then((res) => res.json())
         .then((data) => {
             // Invoke our history method
@@ -50,11 +54,11 @@ function fiveDayForecast(cityName){
             console.log(data.list)
             var htmlCode = ""
             for(let i=0;i<data.list.length;i=i+8){
-              htmlCode += `<div class="cards"><p>Date: <strong>${data.list[i].dt_txt}</strong> degrees<p>
+              htmlCode += `<div class="cards text-center border-primary"><p>Date: <strong>${data.list[i].dt_txt}</strong><p>
             <p>Temperature: <strong>${data.list[i].main.temp}</strong> degrees<p>
             <p>Humidity: <strong>${data.list[i].main.humidity}</strong> % </p>
             <p>Description: ${data.list[i].weather[0].description}<p>
-            <img src="http://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" />
+            <img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" />
             <p>Wind Speed: ${data.list[i].wind.speed}</p>
             </div>`
             }
@@ -64,6 +68,24 @@ function fiveDayForecast(cityName){
         
 }
 
-            
+        function getUV(lat,lon){
+          var endpoint = `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${API}`
+            fetch(endpoint)
+         .then((res) => res.json())
+         .then((data) => {
+             // Invoke our history method
+             // if "Weather(!existingHistory.includes(searchValue)) {
+             //   handleHistory(searchValue);
+             i = 0
+             console.log(data)
+             $("#uv-index").html(`<h6>UV: ${data.value}</h6>`)
+        })
+    }
 
 
+function getLocalStorage(cityName){
+    var search = JSON.parse(localStorage.getItem("Weather")) || []
+    search.push(cityName)
+    localStorage.setItem("Weather", JSON.stringify(search))
+
+}
